@@ -28,7 +28,7 @@
 	<div class="mainpage">
 
 
-		<input id="hideIns" type="button" value="doorgeven" />
+		<input id="hideIns" type="button" value="doorgeven" onclick="hide()" />
 		<p>Laat deze koeien insemineren als ze tochtig zijn!</p>
 		<table id="koeien" style="overflow-x: auto;">
 			<tr>
@@ -86,7 +86,7 @@
 						
 					});
 			
-			
+				hide();
 				}
 	
 			</script>
@@ -112,15 +112,15 @@
 		</script>
 		
 		<script>
-		$("#hideIns").click(
-		function () {
+		//$("#hideIns").click(
+		function hide () {
 		    var form = document.getElementById('updateForm');
 		    if (form.style.display === 'none') {
 		        form.style.display = 'block';
 		    } else {
 		        form.style.display = 'none';
 		    }
-		});
+		}
 		</script>
 		
 </body>
