@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<title>Veeapp</title>
+<link rel="stylesheet" type="text/css" href="general.css">
+<link rel="stylesheet" type="text/css" href="forms.css">
+<link rel="stylesheet" type="text/css" href="table.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
+<script src="search.js"></script>
+<body onload="loadKoeien()">
+
+
+ <div class="nav">
+ <ul>
+ 
+ 	 <li><a href="index.html"><i class="material-icons">home</i> Home</a></li>
+	 <li><a href="koe_toevoegen.html"><i class="material-icons">add</i> Voeg koe toe</a></li>
+	 <li><a href="koe_verwijderen.html"><i class="material-icons">delete</i> Verwijder koe </a></li>
+	 <li><a href="koe_wijzigen.html"><i class="material-icons">edit</i> Wijzig status </a></li>
+	 <li><a href="koe_inzien.html"><i class="material-icons">list</i> Alle koeien </a></li>
+	 <li><a href="koe_voer.html"><i class="material-icons">pie_chart</i> Statistieken voer</a></li>
+	 <li><a href="melk.html"><i class="material-icons">show_chart</i> Statistieken melk </a></li>
+	 <li><a class="active" href="insemeniaties.html"><i class="material-icons">priority_high</i> Inseminaties </a></li>
+	 
+	</ul>
+</div>
+	<div class="mainpage">
+
+
+		<input id="hideIns" type="button" value="doorgeven" />
+		<p>Laat deze koeien insemineren als ze tochtig zijn!</p>
+		<table id="koeien" style="overflow-x: auto;">
+			<tr>
+				<th>Oornr</th>
+				<th>Naam</th>
+				<th>Status</th>
+				<th>Gbdatum</th>
+				<th>laatste KD</th>
+				<th>laatste INSD</th>
+			</tr>
+		</table>
+		
+		
+		<form id="updateForm">
+		
+			
+			<br>
+			<label>Koe</label> <select id="selected" name="oornr">
+			
+			</select>
+				<br>
+				<label>Laatste inseminatie </label> <input
+					type=date id="datum" name="datum" min=2017-01-01 />
+				<br>
+			<input id="wijzig" type="button" value="Inseminatie doorgeven" />
+			<br>
+		 <label	id="response"></label>
+
+
+		</form>
+		
+
+	</div>
+	<script>
+	function loadKoeien() {
+			$.getJSON("restservices/koeien/insemineren",
+					function(data) {
+						$.each(data, function(i, koe) {
+			
+							$("#koeien").append(
+									"<tr><td>" + koe.oornr + "</td><td>"
+											+ koe.naam + "</td><td>"
+											+ koe.status + "</td><td>"
+											+ koe.geboortedatum + "</td><td>"
+											+ koe.laatste_kd + "</td><td>"
+											+ koe.laatste_insd + "</td>"
+											+ "</tr>");
+							
+							
+							$("#selected").append(
+									"<option value="+koe.oornr+">" + koe.oornr
+											+ "</option>");
+						});
+						
+						
+					});
+			
+			
+				}
+	
+			</script>
+			<script>
+			$("#wijzig").click(
+					function() {
+						var uri = "restservices/koeien/insemineren/" + $("#selected").val();
+						$.ajax(uri, {
+							type : "put",
+							data : $("#updateForm").serialize(),
+
+							success : function(response) {
+								$("#response").text(
+										"Koe met oornr: " + $("#selected").val() +" inseminatie doorgegeven");
+												
+							},
+							error : function(response) {
+								$("#response").text("Incorrecte invoer..");
+									//er zijn geen koeien of datum is incorrect
+							}
+						});
+					});
+		</script>
+		
+		<script>
+		$("#hideIns").click(
+		function () {
+		    var form = document.getElementById('updateForm');
+		    if (form.style.display === 'none') {
+		        form.style.display = 'block';
+		    } else {
+		        form.style.display = 'none';
+		    }
+		});
+		</script>
+		
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<title>Veeapp</title>
+<link rel="stylesheet" type="text/css" href="general.css">
+<link rel="stylesheet" type="text/css" href="forms.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
+<script type="text/javascript"  src="Alloornr.js"></script>
+<body onload="loadOornr()">
+
+
+	 <div class="nav">
+	 <ul>
+	 
+	 	 <li><a href="index.html"><i class="material-icons">home</i> Home</a></li>
+		 <li><a href="koe_toevoegen.html"><i class="material-icons">add</i> Voeg koe toe</a></li>
+		 <li><a class="active" href="koe_verwijderen.html"><i class="material-icons">delete</i> Verwijder koe </a></li>
+		 <li><a href="koe_wijzigen.html"><i class="material-icons">edit</i> Wijzig status </a></li>
+		 <li><a href="koe_inzien.html"><i class="material-icons">list</i> Alle koeien </a></li>
+		 <li><a href="koe_voer.html"><i class="material-icons">pie_chart</i> Statistieken voer</a></li>
+		 <li><a href="melk.html"><i class="material-icons">show_chart</i> Statistieken melk </a></li>
+		 <li><a href="insemeniaties.html"><i class="material-icons">priority_high</i> Inseminaties </a></li>
+		 
+		</ul>
+	</div>
+<div class="mainpage">
+	
+	
+		<form>
+		<p>Vewijder hier een koe:</p>
+		<label>Koe*</label> <select
+			id="selected" > </select>
+	
+	<label>Reden*</label>
+		<select name="reden">
+		  <option value="verkoop">Verkoop</option>
+		  <option value="overleden">Overleden</option>
+		
+		</select>	
+		
+	<input id="delete" type="button" value="Koe verwijderen"/> 
+	<label id="response"/></label>
+	</form>
+	
+	<label id="verplicht">*dit veld is verplicht</label>
+	
+	
+	
+
+	</div>
+	<script>
+	$("#delete").click(function() {
+		var uri = "restservices/koeien/" + $("#selected").val();
+		$.ajax(uri, {
+			type : "delete",
+			success : function(response) {
+				$("#response").text("Koe met oornr: "+ $("#selected").val()+" verwijderd!");
+			},
+			error : function(response) {
+				$("#response").text("Deze koe staat bestaat niet!");
+			}
+		});
+	});</script>
+</body>
+</html>

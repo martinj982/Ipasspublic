@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<title>Veeapp</title>
+<link rel="stylesheet" type="text/css" href="general.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" type="text/css" href="table.css">
+
+<script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
+<script src="search.js"></script>
+<body onload="loadKoeien('restservices/koeien')">
+
+
+	 <div class="nav">
+	 <ul>
+	 
+	 	 <li><a href="index.html"><i class="material-icons">home</i> Home</a></li>
+		 <li><a href="koe_toevoegen.html"><i class="material-icons">add</i> Voeg koe toe</a></li>
+		 <li><a href="koe_verwijderen.html"><i class="material-icons">delete</i> Verwijder koe </a></li>
+		 <li><a href="koe_wijzigen.html"><i class="material-icons">edit</i> Wijzig status </a></li>
+		 <li><a class="active" href="koe_inzien.html"><i class="material-icons">list</i> Alle koeien </a></li>
+		 <li><a href="koe_voer.html"><i class="material-icons">pie_chart</i> Statistieken voer</a></li>
+		 <li><a href="melk.html"><i class="material-icons">show_chart</i> Statistieken melk </a></li>
+		 <li><a href="insemeniaties.html"><i class="material-icons">priority_high</i> Inseminaties </a></li>
+		 
+		</ul>
+	</div>
+	
+	<div class="mainpage">
+
+
+		<p>Overzicht alle koeien:</p>
+		<div id="zoeker"><label >Zoek koe:</label> <input type="number" id="myInput"
+			onkeyup="search()" onchange="search()" placeholder="zoek op oornummer.."></div>
+		<table id="koeien" style="overflow-x: auto;">
+			<tr>
+				<th>Oornr</th>
+				<th>naam</th>
+				<th>Geslacht</th>
+				<th>Status</th>
+				<th>Gbdatum</th>
+				<th>Moeder</th>
+				<th>geplande KD</th>
+				<th>laatste KD</th>
+				<th>laatste insd</th>
+				<th>stal</th>
+				
+			</tr>
+		</table>
+			
+
+
+	</div>
+	<script>
+	function loadKoeien(uri) {
+		//uri="restservices/koeien";
+			$.getJSON(uri,
+					function(data) {
+						$.each(data, function(i, koe) {
+							if(koe.moeder == "0"){ koe.moeder="";}
+							if (koe.status == "afgekalfd" || koe.status=="geen"){koe.geplande_kd="";}
+						
+							$("#koeien").append(
+									"<tr><td>" + koe.oornr + "</td><td>"
+											+ koe.naam + "</td><td>"
+											+ koe.geslacht + "</td><td>"
+											+ koe.status + "</td><td>"
+											+ koe.geboortedatum + "</td><td>"
+											+ koe.moeder + "</td><td>"
+											+ koe.geplande_kd + "</td><td>"
+											+ koe.laatste_kd + "</td><td>"
+											+ koe.laatste_insd + "</td><td>"
+											+ koe.stal + "</td>"
+								
+											+ "</tr>");
+
+						});
+					});
+				}
+			</script>
+		
+</body>
+</html>

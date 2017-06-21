@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<title>Veeapp</title>
+<link rel="stylesheet" type="text/css" href="general.css">
+<link rel="stylesheet" type="text/css" href="forms.css">
+<script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+<body>
+
+
+ <div class="nav">
+ <ul>
+ 
+ 	 <li><a href="index.html"><i class="material-icons">home</i> Home</a></li>
+	 <li><a class="active" href="koe_toevoegen.html"><i class="material-icons">add</i> Voeg koe toe</a></li>
+	 <li><a href="koe_verwijderen.html"><i class="material-icons">delete</i> Verwijder koe </a></li>
+	 <li><a href="koe_wijzigen.html"><i class="material-icons">edit</i> Wijzig status </a></li>
+	 <li><a href="koe_inzien.html"><i class="material-icons">list</i> Alle koeien </a></li>
+	 <li><a href="koe_voer.html"><i class="material-icons">pie_chart</i> Statistieken voer</a></li>
+	 <li><a href="melk.html"><i class="material-icons">show_chart</i> Statistieken melk </a></li>
+	 <li><a href="insemeniaties.html"><i class="material-icons">priority_high</i> Inseminaties </a></li>
+	 
+	</ul>
+</div>
+	<div class="mainpage">
+	
+	
+	<form id="toevoegform">
+	<p>Voer hier nieuwe koeien in:</p>
+	<label>Oornr*</label>
+	<input type="number" placeholder="Oornummer" name="oornr" /> 
+	
+	<label>Naam*</label>
+	<input type="text" placeholder="Naam" id="naam" name="naam" /> 
+	
+	<label>Geslacht*</label>
+		<select name="geslacht">
+		  <option value="V">V</option>
+		  <option value="M">M</option>
+		</select>	
+		
+	<label>Geboortedatum*</label>
+	<input type="date"  name="geboortedatum" /> 
+	
+	<label>Moeder(Oornr)</label>
+	<input type="number" placeholder="Moeder(Oornr)"  name="moeder" />
+	 
+	<label>Stal</label>
+	<input type="text" placeholder="stal"  name="stal" /> 
+	 
+	
+	<input id="toevoegen" type="button" value="Koe toevoegen" /> 
+	<label id="response"/></label>
+	</form>
+	
+		<label id="verplicht">*dit veld is verplicht</label>
+		
+
+	</div>
+	<script>
+	$("#toevoegen").click(function() {
+		var uri = "restservices/koeien";
+	$.ajax(uri, {
+			type : "post",
+			data : $("#toevoegform").serialize(),
+		
+			success : function(response) {
+				$("#response").text("Koe opgeslagen!");
+			},
+			error : function(response) {
+				$("#response").text("Controleer je invoer..");
+			}
+		});
+	});
+	</script>
+</body>
+</html>

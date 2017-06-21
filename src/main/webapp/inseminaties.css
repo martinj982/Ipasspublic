@@ -1,0 +1,38 @@
+
+p{
+	font-size:20px;
+	margin-left :20%;
+	margin-bottom:50px;
+}
+table{
+    float:left;
+    margin-right:30px;
+}
+
+form {
+
+float: left;
+}
+
+label:nth-child(1){
+	width:100%;
+}
+label{
+    width:50%;
+	float:left;
+}
+
+input{
+	float:left;
+	width:48%;
+
+}
+select{
+	float:left;
+	width:49%;
+}
+#wijzig{
+	margin-top:20px;
+	float:right;
+	width:30%;
+}

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<title>Veeapp</title>
+<link rel="stylesheet" type="text/css" href="general.css">
+<link rel="stylesheet" type="text/css" href="chart.css">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
+<script type="text/javascript" src="Alloornr.js"></script>
+<body onload="loadOornrMelk()">
+
+
+	<div class="nav">
+		<ul>
+
+			<li><a href="index.html"><i class="material-icons">home</i>
+					Home</a></li>
+			<li><a href="koe_toevoegen.html"><i class="material-icons">add</i>
+					Voeg koe toe</a></li>
+			<li><a href="koe_verwijderen.html"><i class="material-icons">delete</i>
+					Verwijder koe </a></li>
+			<li><a href="koe_wijzigen.html"><i class="material-icons">edit</i>
+					Wijzig status </a></li>
+			<li><a href="koe_inzien.html"><i class="material-icons">list</i>
+					Alle koeien </a></li>
+			<li><a href="koe_voer.html"><i class="material-icons">pie_chart</i>
+					Statistieken voer</a></li>
+			<li><a class="active" href="melk.html"><i
+					class="material-icons">show_chart</i> Statistieken melk </a></li>
+			<li><a href="insemeniaties.html"><i class="material-icons">priority_high</i>
+					Inseminaties </a></li>
+
+		</ul>
+	</div>
+	<div class="mainpage">
+
+
+		<p>Overzicht gegeven melk door een koe</p>
+		<label>Koe: </label> <select id="selected" name="oornr">
+		<option value="alle"> Alle(gem)</option>
+
+		</select>
+
+
+
+
+	</div>
+
+	<div id="lineChart"
+		style="margin-top: 100px; margin-left: 200px; ] width: 600px; height: 400px"></div>
+
+	<script type="text/javascript"
+		src="https://www.gstatic.com/charts/loader.js"></script>
+	<script>
+		google.charts.load("visualization", "1", {
+			packages : [ "corechart" ],
+			"callback" : drawChart
+		});
+		google.charts.setOnLoadCallback(drawChart);
+
+		var chart;
+		function drawChart() {
+
+			$.ajax({
+				url : "restservices/melk/" + "alle",
+				dataType : "json",
+				success : function(jsonData) {
+					var data = new google.visualization.DataTable();
+
+					data.addColumn('string', 'datum');
+					data.addColumn('number', 'liters melk');
+
+					for (var i = 0; i < jsonData.length; i++) {
+						data.addRow([ jsonData[i].datum, jsonData[i].liter ]);
+					}
+
+					var options = {
+						title : 'gegeven melk per dag',
+					};
+					chart = new google.visualization.LineChart(document
+							.getElementById('lineChart'));
+					chart.draw(data, options);
+				}
+			});
+
+		}
+
+		$(document)
+				.ready(
+						function() {
+							//On  change, load new data
+							$("#selected")
+									.change(
+											function() {
+												$.ajax({
+															url : "restservices/melk/"
+																	+ ($("#selected")
+																			.val()),
+															dataType : "json",
+															success : function(
+																	jsonData) {
+																var data = new google.visualization.DataTable();
+
+																data
+																		.addColumn(
+																				'string',
+																				'datum');
+																data
+																		.addColumn(
+																				'number',
+																				'liters melk');
+
+																for (var i = 0; i < jsonData.length; i++) {
+																	data
+																			.addRow([
+																					jsonData[i].datum,
+																					jsonData[i].liter ]);
+																}
+
+																var options = {
+																	title : 'gegeven melk per dag',
+
+																};
+																chart = new google.visualization.LineChart(
+																		document
+																				.getElementById('lineChart'));
+																chart
+																		.draw(
+																				data,
+																				options);
+															}
+														});
+
+											});
+						});
+	</script>
+
+</body>
+</html>
